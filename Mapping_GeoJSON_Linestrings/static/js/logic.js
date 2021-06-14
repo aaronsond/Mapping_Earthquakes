@@ -36,10 +36,10 @@ console.log("working");
 
 
 // We create the tile layer that will be the background of our map.
-let streets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+let light = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
-    id: 'mapbox/satellite-streets-v11',
+    id: 'mapbox/satellite-light-v10',
     tileSize: 512,
     zoomOffset: -1,
     accessToken: API_KEY
@@ -54,31 +54,36 @@ attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap
 
 // Create a base layer that holds both maps.
 let baseMaps = {
-  Street: streets,
+  Light: light,
   Dark: dark
 };
 // Create the map object with center and zoom level.
 // Create the map object with center, zoom level and default layer.
 let map = L.map('mapid', {
-  center: [30, 30],
-  zoom: 2,
-  layers: [streets]
+  center: [44.0, -80.0],
+  zoom: 4,
+  layers: [light]
 })
 //.setView([30, 30], 3);
 // Pass our map layers into our layers control and add the layers control to the map.
 L.control.layers(baseMaps).addTo(map);
 
 
-
-
-// Accessing the airport GeoJSON URL
-let airportData = "https://raw.githubusercontent.com/aaronsond/Mapping_Earthquakes/main/majorAirports.json";
+let torontoData = "https://raw.githubusercontent.com/aaronsond/Mapping_Earthquakes/main/torontoRoutes.json";
 // Grabbing our GeoJSON data.
-d3.json(airportData).then(function(data) {
+d3.json(torontoData).then(function(data) {
   console.log(data);
 // Creating a GeoJSON layer with the retrieved data.
-  L.geoJson(data).addTo(map);
+L.geoJson(data).addTo(map);
 });
+// // Accessing the airport GeoJSON URL
+// let airportData = "https://raw.githubusercontent.com/aaronsond/Mapping_Earthquakes/main/majorAirports.json";
+// // Grabbing our GeoJSON data.
+// d3.json(airportData).then(function(data) {
+//   console.log(data);
+// // Creating a GeoJSON layer with the retrieved data.
+//   L.geoJson(data).addTo(map);
+// });
 
 //  Add a marker to the map for Los Angeles, California.
 // L.circleMarker([34.0522, -118.2437], {
